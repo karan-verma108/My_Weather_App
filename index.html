@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Weather</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+        integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: rgb(176, 230, 230);
+        }
+
+        .box {
+            width: 20%;
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+            border-radius: 7px;
+            padding: 40px 0px;
+            background-color: rgb(177, 122, 243);
+            box-shadow: 0px 0px 5px black;
+        }
+
+        .weather_icon {
+            display: flex;
+            justify-content: center;
+            text-shadow: 0px 0px 13px black;
+            animation: rotate 10s alternate-reverse 0s infinite;
+        }
+
+        @keyframes rotate {
+            0% {
+                transform: rotate3d(0, 0, 1, 0deg);
+            }
+
+            100% {
+                transform: rotate3d(0, 0, 1, 360deg);
+            }
+        }
+
+        .infoBox {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 36px;
+        }
+
+        .locationInfo {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .tempInfo {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="box">
+        <div class="weather_icon">
+            <i class="fa-solid fa-sun" style="color: yellow; font-size: 5rem;"></i>
+        </div>
+        <div class="infoBox">
+
+            <div class="locationInfo">
+
+                <div class="location">
+                    <h3>{%location%}, {%country%}</h3>
+                </div>
+
+                <div class="moreInfo">
+                    <h3 id="timeInfo">WED | OCT 24 | 12:30PM</h3>
+                </div>
+
+            </div>
+
+            <div class="tempInfo">
+
+                <div class="temp">
+                    <h1>{%temp_val%}&deg;F</h1>
+                </div>
+                <div class="moreInfo">
+                    <h3>Min {%min_temp%}&deg;F | Max {%max_temp%}&deg;F</h3>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+
+        const timeInfo = document.getElementById('timeInfo');
+
+        const getToday = () => {
+            let weekdays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+
+            let todayTime = new Date();
+            let todayDay = todayTime.getDay();
+            todayDay = weekdays[todayDay];
+            return todayDay;
+        }
+
+        const findMonth = () => {
+            let months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+            let todayTime = new Date();
+            let todayMonth = todayTime.getMonth();
+            todayMonth = months[todayMonth];
+            return todayMonth;
+        }
+
+        const findDate = () => {
+            let todayTime = new Date();
+            let todayDate = todayTime.getDate();
+            return todayDate;
+        }
+
+        const findTime = () => {
+            let todayTime = new Date();
+
+            let getHours = todayTime.getHours();
+            let getMinutes = todayTime.getMinutes();
+
+            getMinutes = getMinutes < 10 ? `0${getMinutes}` : getMinutes;
+
+            let period = getHours > 12 ? 'PM' : 'AM';
+
+            getHours = getHours >= 12 ? getHours - 12 : getHours;
+            getHours = `${getHours}:${getMinutes} ${period}`
+
+            return getHours;
+        }
+
+        getToday();
+        findMonth();
+        findDate();
+        findTime();
+
+        timeInfo.innerHTML = `${getToday()} | ${findMonth()} ${findDate()} | ${findTime()}`
+    </script>
+
+</body>
+
+</html>
